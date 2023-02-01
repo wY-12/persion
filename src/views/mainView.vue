@@ -197,6 +197,16 @@
                 nowData:new Date(),
             }
         },
+        mounted(){
+            if(!window.localStorage.getItem('userId') || window.localStorage.getItem('user') == ''){
+                this.$myMessage({
+                    content:'请先登录内部用户',
+                    time:2000,
+                    messageType:'error'
+                })
+                this.$router.push('/')
+            }
+        },
         computed: {
             iconSize () {
                 return this.spanLeft === 4 ? 20 : 24;
@@ -207,11 +217,6 @@
         },
         methods: {
             toggleClick () {
-                this.$myMessage({
-                    content:'这是一条成功提示',
-                    time:2000,
-                    messageType:'success'
-                })
                 if (this.spanLeft === 4) {
                     this.spanLeft = 2;
                     this.spanRight = 22;
@@ -223,12 +228,12 @@
                 }
             },
             logout(){
-                console.log('退出')
                 this.$myMessage({
                     content:'退出成功',
                     time:2000,
                     messageType:'success'
                 })
+                window.localStorage.removeItem('userId')
                 this.$router.push('/')
             },  
             jumpTo(to){

@@ -5,9 +5,9 @@
           <div @click="cardDetails(item)">
             <Card >
                 <div style="text-align:center">
-                  <img v-if="item.image" :src=item.image class="cardImage">
-                  <h3>{{item.name}}</h3>
-                  <p>{{ item.content }}</p>
+                  <img v-if="item.img" :src=item.img class="cardImage">
+                  <h3>{{item.title}}</h3>
+                  <p>{{ item.introduction }}</p>
               </div>
             </Card>
           </div>
@@ -22,63 +22,26 @@ export default {
     data(){
       return {
         cardData:[
-          {
-            name:'卡片',
-            content:'卡片的具体内容'
-          },
-          {
-            name:'卡片',
-            content:'卡片的具体内容卡'
-          },
-          {
-            name:'卡片',
-            image:'https://iview.github.io/dist/76ecb6e76d2c438065f90cd7f8fa7371.png',
-            content:'卡片的具体内容卡片的具体内容卡片的具体内容卡片的具体内容卡片的具体内容卡片的具体内容卡片的具体内容卡片的具体内容卡片的具体内容卡片的具体内容卡片的具体内容卡片的具体内容卡片的具体内容'
-          },
-          {
-            name:'卡片',
-            image:'https://iview.github.io/dist/76ecb6e76d2c438065f90cd7f8fa7371.png',
-            content:'卡片的具体内容'
-          },
-          {
-            name:'卡片',
-            image:'https://iview.github.io/dist/76ecb6e76d2c438065f90cd7f8fa7371.png',
-            content:'卡片的具体内容'
-          },
-          {
-            name:'卡片',
-            image:'https://iview.github.io/dist/76ecb6e76d2c438065f90cd7f8fa7371.png',
-            content:'卡片的具体内容'
-          },
-          
-          {
-            name:'卡片',
-            image:'https://iview.github.io/dist/76ecb6e76d2c438065f90cd7f8fa7371.png',
-            content:'卡片的具体内容'
-          },
-          {
-            name:'卡片',
-            image:'https://iview.github.io/dist/76ecb6e76d2c438065f90cd7f8fa7371.png',
-            content:'卡片的具体内容'
-          },
-          {
-            name:'卡片',
-            image:'https://iview.github.io/dist/76ecb6e76d2c438065f90cd7f8fa7371.png',
-            content:'卡片的具体内容'
-          },
-          {
-            name:'卡片',
-            image:'https://iview.github.io/dist/76ecb6e76d2c438065f90cd7f8fa7371.png',
-            content:'卡片的具体内容'
-          },
-
         ]
       }
     },
+    mounted(){
+      this.getCards()
+    },
     methods:{
       cardDetails(item){
-        console.log(item)
-        console.log("111111")
+        window.open(item.url,'_blank');
+      },
+      getCards(){
+        this.$axios({
+                method:'post',
+                url:'http://localhost:8080/api/sysuser/getCards',
+                data:{
+                    userId:window.localStorage.getItem('userId')
+                }
+            }).then(res=>{
+                this.cardData = res.data
+            })
       }
     }
 }

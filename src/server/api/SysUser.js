@@ -89,14 +89,15 @@ router.post('/getInterviewTitle',(req,res)=>{
 })
 router.post('/getTotals',(req,res)=>{
   const params = req.body
-  let results = {}
-  const sql = `SELECT COUNT(*) as total FROM interviewtitle WHERE userId='${params.userId}';`;
+  let results = {};
+  const sql = `SELECT COUNT(*) as interviewtitletotal FROM interviewtitle WHERE userId='${params.userId}';SELECT COUNT(*) as collectiontotal FROM collection WHERE userId='${params.userId}';`;
   conn.query(sql,[params.userId],function(err, result){
     if(err){
       console.log(err)
     }
     if(result){
-      results.total = result[0].total
+      results.interviewtitletotal = result[0][0].interviewtitletotal
+      results.collectiontotal = result[1][0].collectiontotal
       jsonWrite(res,results)
     }
 
@@ -123,9 +124,8 @@ router.post('/getDetails',(req,res)=>{
 
 router.post('/changeDetails',(req,res)=>{
   const params = req.body
-  let nowTime = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
 
-  const sql = `UPDATE interview SET mdContent= '${params.mdContent}',content='${params.content}' WHERE cid = '${params.id}';UPDATE interviewtitle SET title='${params.title}',time = '${nowTime}' WHERE id = '${params.id}'`;
+  const sql = `UPDATE interview SET mdContent= '${params.mdContent}',content='${params.content}' WHERE cid = '${params.id}';UPDATE interviewtitle SET title='${params.title}',time = '${params.nowTime || `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`}' WHERE id = '${params.id}'`;
   conn.query(sql,[params.mdContent,params.content,params.id],function(err, result){
     if(err){
       console.log(err)
@@ -138,9 +138,8 @@ router.post('/changeDetails',(req,res)=>{
 })
 router.post('/addDetails',(req,res)=>{
   const params = req.body
-  let nowTime = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`
 
-  const sql = `INSERT INTO interviewtitle (id,type,title,time,userId) VALUES(null,'${params.type}','${params.title}','${nowTime}','${params.userId}');
+  const sql = `INSERT INTO interviewtitle (id,type,title,time,userId) VALUES(null,'${params.type}','${params.title}','${params.nowTime || `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`}','${params.userId}');
   set @id = @@IDENTITY;
   INSERT INTO interview (cId,content,mdContent) VALUES(@id,'${params.content}','${params.mdContent}');
   `;
@@ -178,7 +177,18 @@ router.post('/delDetails',(req,res)=>{
   })
 })
 
+router.post('/getCards',(req,res)=>{
+  const params = req.body
+  const sql = `SELECT * FROM collection WHERE userId='${params.userId}'`;
+  conn.query(sql,[params.userId],function(err, result){
+    if(err){
+      console.log(err)
+    }
+    if(result){
+      jsonWrite(res,result)
+    }
 
-
+  })
+})
 
 module.exports = router

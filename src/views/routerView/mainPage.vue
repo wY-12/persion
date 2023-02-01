@@ -30,6 +30,7 @@ export default {
                     name:'面试题数量',
                     iconType:'ios-paper',
                     num:0,
+                    total:'interviewtitletotal',
                     color:'seagreen',
                 },
                 {
@@ -39,6 +40,7 @@ export default {
                     color:'olivedrab',
                 },
                 {
+                    total:'collectiontotal',
                     name:'文章收藏数量',
                     iconType:'ios-mic',
                     num:0,
@@ -63,9 +65,9 @@ export default {
             articleProportion:null,
             variationWeekly:null,
             articleProportionData:[
-                        { value: 0, name: '面试题' },
+                        { value: 0, name: '面试题',total:'interviewtitletotal', },
                         { value: 0, name: '小技巧' },
-                        { value: 0, name: '文章收藏' },
+                        { value: 0, name: '文章收藏',total:'collectiontotal',},
                         // { value: 484, name: 'css小技巧' },
                         // { value: 300, name: '地址收藏' }
             ],
@@ -207,8 +209,12 @@ export default {
                     userId:window.localStorage.getItem('userId')
                 }
             }).then(res=>{
-                this.titleData[0].num = res.data.total
-                this.articleProportionData[0].value = res.data.total
+                this.articleProportionData.forEach(item => {
+                    item.value = res.data[item.total] || 0
+                });
+                this.titleData.forEach(item => {
+                    item.num = res.data[item.total] ||0
+                });
                 this.drawArticleProportion(this.articleProportionData);
 
             })
