@@ -131,8 +131,9 @@
                 </div>
                 <div class="layout-content">
                     <keep-alive>
-                        <router-view></router-view>
+                        <router-view v-if="$route.meta.keepAlive" />
                     </keep-alive>
+                    <router-view v-if="!$route.meta.keepAlive" />
                 </div>
                 <div class="layout-copy">
                      {{nowData}} &copy; 王十二
@@ -187,7 +188,7 @@
                                 urlId:'antic',
                             },
                             {
-                                name:'文章收藏',
+                                name:'地址收藏',
                                 urlId:'article-collection',
                             },
                         ]

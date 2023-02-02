@@ -10,7 +10,6 @@
       <Button @click="add" type="primary" shape="circle" icon="ios-add" class="addBtn"></Button>
     </div>
     
-
     <myTable :table-data="tableData" :title-data="tableTitle" :showHeader="false" @pageChange="pageChange"></myTable>
     <Modal v-model="modal1" width="360">
         <p slot="header" style="color:#f60;text-align:center">
@@ -150,7 +149,7 @@ export default {
       this.modal_loading = true;
       this.$axios({
         method:'post',
-        url:'http://localhost:8080/api/sysuser/delDetails',
+        url:'http://45.77.181.240:8080/api/sysuser/delDetails',
         data:{
           id:this.nowRow.id
         }
@@ -175,11 +174,8 @@ export default {
     },
     getTypeList(){
       this.$axios({
-        method:'post',
-        url:'http://localhost:8080/api/sysuser/getInterviewType',
-        data:{
-          userId:window.localStorage.getItem('userId')
-        }
+        method:'get',
+        url:'http://45.77.181.240:8080/api/sysuser/getInterviewType',
       }).then(res=>{
         this.typeList = res.data
       })
@@ -187,7 +183,7 @@ export default {
     getInterviewList(){
       this.$axios({
         method:'post',
-        url:'http://localhost:8080/api/sysuser/getInterviewTitle',
+        url:'http://45.77.181.240:8080/api/sysuser/getInterviewTitle',
         data:{
           userId:window.localStorage.getItem('userId'),
           page:this.page,

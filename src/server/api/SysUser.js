@@ -44,10 +44,10 @@ router.post('/get',(req, res) => {
   })
 })
 
-router.post('/getInterviewType',(req,res)=>{
+router.get('/getInterviewType',(req,res)=>{
   const params = req.body
-  const sql = `SELECT * FROM interviewtype WHERE userId='${params.userId}'`;
-  conn.query(sql,[params.userId],function(err, result){
+  const sql = `SELECT * FROM interviewtype`;
+  conn.query(sql,[],function(err, result){
     if(err){
       console.log(err)
     }
@@ -90,7 +90,7 @@ router.post('/getInterviewTitle',(req,res)=>{
 router.post('/getTotals',(req,res)=>{
   const params = req.body
   let results = {};
-  const sql = `SELECT COUNT(*) as interviewtitletotal FROM interviewtitle WHERE userId='${params.userId}';SELECT COUNT(*) as collectiontotal FROM collection WHERE userId='${params.userId}';`;
+  const sql = `SELECT COUNT(*) as interviewtitletotal FROM interviewtitle WHERE userId='${params.userId}';SELECT COUNT(*) as collectiontotal FROM collection`;
   conn.query(sql,[params.userId],function(err, result){
     if(err){
       console.log(err)
@@ -177,10 +177,10 @@ router.post('/delDetails',(req,res)=>{
   })
 })
 
-router.post('/getCards',(req,res)=>{
+router.get('/getCards',(req,res)=>{
   const params = req.body
-  const sql = `SELECT * FROM collection WHERE userId='${params.userId}'`;
-  conn.query(sql,[params.userId],function(err, result){
+  const sql = `SELECT * FROM collection`;
+  conn.query(sql,[],function(err, result){
     if(err){
       console.log(err)
     }

@@ -38,7 +38,7 @@ export default {
         getDetials(){
             this.$axios({
                 method:'post',
-                url:'http://localhost:8080/api/sysuser/getDetails',
+                url:'http://45.77.181.240:8080/api/sysuser/getDetails',
                 data:{
                     detailsId:this.$route.query.id
                 }

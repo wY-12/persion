@@ -18,7 +18,10 @@ const routes = [
       {
         path: '/interview-questions',
         name: 'interview-questions',
-        component: () => import('../views/routerView/collection/interviewQuestions.vue')
+        component: () => import('../views/routerView/collection/interviewQuestions.vue'),
+        meta: {
+          keepAlive: true //此组件需要被缓存
+        }
       },
       {
         path: '/mainPage',

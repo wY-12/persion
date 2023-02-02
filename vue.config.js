@@ -7,5 +7,18 @@ configureWebpack: (config) => {
 }
 
 module.exports = defineConfig({
-  transpileDependencies: true
+  transpileDependencies: true,
+
 })
+module.exports = {
+	devServer: {
+		proxy: {
+			'/api': {
+				target: 'http://45.77.181.240/:8080',
+				pathRewrite:{'^/api':''},
+				ws: true,
+				changeOrigin: true
+			  }
+		}
+	},
+}

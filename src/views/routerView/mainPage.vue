@@ -67,7 +67,7 @@ export default {
             articleProportionData:[
                         { value: 0, name: '面试题',total:'interviewtitletotal', },
                         { value: 0, name: '小技巧' },
-                        { value: 0, name: '文章收藏',total:'collectiontotal',},
+                        { value: 0, name: '地址收藏',total:'collectiontotal',},
                         // { value: 484, name: 'css小技巧' },
                         // { value: 300, name: '地址收藏' }
             ],
@@ -204,7 +204,7 @@ export default {
         getTotals(){
             this.$axios({
                 method:'post',
-                url:'http://localhost:8080/api/sysuser/getTotals',
+                url:'http://45.77.181.240:8080/api/sysuser/getTotals',
                 data:{
                     userId:window.localStorage.getItem('userId')
                 }

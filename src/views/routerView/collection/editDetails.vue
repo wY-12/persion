@@ -87,16 +87,9 @@
             }
         },
         changeDetails(){
-            console.log('使用了change方法')
-            console.log({
-                mdContent:this.dataEdit.value.docxContent.toString(),
-                    content:this.dataEdit.format_html.toString(),
-                    title:this.dataEdit.value.docxTitle.toString(),
-                    id:this.$route.query.detailsId
-            })
             this.$axios({
                 method:'post',
-                url:'http://localhost:8080/api/sysuser/changeDetails',
+                url:'http://45.77.181.240:8080/api/sysuser/changeDetails',
                 data:{
                     mdContent:this.dataEdit.value.docxContent.toString(),
                     content:this.dataEdit.format_html.toString(),
@@ -113,7 +106,7 @@
         addDetails(){
             this.$axios({
                 method:'post',
-                url:'http://localhost:8080/api/sysuser/addDetails',
+                url:'http://45.77.181.240:8080/api/sysuser/addDetails',
                 data:{
                     type:this.$route.query.type,
                     mdContent:this.dataEdit.value.docxContent.toString(),
@@ -131,7 +124,7 @@
         getDetials(){
             this.$axios({
                 method:'post',
-                url:'http://localhost:8080/api/sysuser/getDetails',
+                url:'http://45.77.181.240:8080/api/sysuser/getDetails',
                 data:{
                     detailsId:this.$route.query.detailsId
                 }

@@ -34,11 +34,8 @@ export default {
       },
       getCards(){
         this.$axios({
-                method:'post',
-                url:'http://localhost:8080/api/sysuser/getCards',
-                data:{
-                    userId:window.localStorage.getItem('userId')
-                }
+                method:'get',
+                url:'http://45.77.181.240:8080/api/sysuser/getCards',
             }).then(res=>{
                 this.cardData = res.data
             })

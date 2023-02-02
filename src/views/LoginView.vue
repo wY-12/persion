@@ -33,7 +33,7 @@ export default {
       if(this.user && this.passWord){
         this.$axios({
           method:'post',
-          url:'http://localhost:8080/api/sysuser/get',
+          url:'http://45.77.181.240:8080/api/sysuser/get',
           data:{
             name:this.user,
             password:this.passWord
