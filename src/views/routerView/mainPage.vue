@@ -15,13 +15,11 @@
     <div class="mainContent">
         <div id="articleProportion" class="articleProportion"></div>
         <div id="variationWeekly" class="variationWeekly"></div>
-
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
 export default {
     data(){
         return {
@@ -74,7 +72,8 @@ export default {
             variationWeeklyData:{
                 num:[1,2,6,5],
                 time:['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-            }
+            },
+            loading:null,
         }
     },
     created(){
@@ -202,23 +201,27 @@ export default {
             variationWeekly.setOption(option)
         },
         getTotals(){
-            this.$axios({
-                method:'post',
-                url:'http://45.77.181.240:8080/api/sysuser/getTotals',
-                data:{
-                    userId:window.localStorage.getItem('userId')
-                }
-            }).then(res=>{
+            this.loading = this.$myLoading();
+            this.$axios.post('/api/sysuser/getTotals',{userId:window.localStorage.getItem('userId')},res=>{
+                
                 this.articleProportionData.forEach(item => {
-                    item.value = res.data[item.total] || 0
+                    item.value = res[item.total] || 0
                 });
                 this.titleData.forEach(item => {
-                    item.num = res.data[item.total] ||0
+                    item.num = res[item.total] ||0
                 });
                 this.drawArticleProportion(this.articleProportionData);
+                this.loading.close()
 
-            })
-        }
+            },rej=>{
+                this.loading.close()
+                this.$myMessage({
+                    content:rej,
+                    messageType:'error'
+                })
+            }
+            )
+        },
     }
 }
 </script>

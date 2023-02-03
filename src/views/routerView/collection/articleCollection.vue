@@ -22,10 +22,13 @@ export default {
     data(){
       return {
         cardData:[
-        ]
+        ],
+        loading:null,
       }
     },
     mounted(){
+      this.loading = this.$myLoading();
+
       this.getCards()
     },
     methods:{
@@ -33,12 +36,18 @@ export default {
         window.open(item.url,'_blank');
       },
       getCards(){
-        this.$axios({
-                method:'get',
-                url:'http://45.77.181.240:8080/api/sysuser/getCards',
-            }).then(res=>{
-                this.cardData = res.data
-            })
+
+        this.$axios.get('/api/sysuser/getCards',{},res=>{
+          this.loading.close();
+          this.cardData = res
+        },rej=>{
+          this.loading.close();
+
+          this.$myMessage({
+            content:rej,
+            messageType:'error'
+          })
+        })
       }
     }
 }

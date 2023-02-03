@@ -24,9 +24,12 @@ export default {
             },
             editTitle:'',
             oldTitle:'',
+            loading:null,
         }
     },
     mounted(){
+        this.loading = this.$myLoading();
+
         this.getDetials()
     },
     methods:{
@@ -36,14 +39,16 @@ export default {
             }})
         },
         getDetials(){
-            this.$axios({
-                method:'post',
-                url:'http://45.77.181.240:8080/api/sysuser/getDetails',
-                data:{
-                    detailsId:this.$route.query.id
-                }
-            }).then(res=>{
-                this.details = res.data
+
+            this.$axios.post('/api/sysuser/getDetails',{detailsId:this.$route.query.id},res=>{
+                this.loading.close();
+                this.details = res
+            },rej=>{
+                this.loading.close()
+                this.$myMessage({
+                    content:rej,
+                    messageType:'error'
+                })
             })
         },
     }

@@ -50,12 +50,13 @@
           subfield: true, // 单双栏模式
           preview: true // 预览
         },
-
+        loading:null,
         
       };
     },
     mounted(){
         if(this.$route.query.detailsId){
+            this.loading = this.$myLoading();
             this.getDetials()
         }
     },  
@@ -87,51 +88,69 @@
             }
         },
         changeDetails(){
-            this.$axios({
-                method:'post',
-                url:'http://45.77.181.240:8080/api/sysuser/changeDetails',
-                data:{
-                    mdContent:this.dataEdit.value.docxContent.toString(),
-                    content:this.dataEdit.format_html.toString(),
-                    title:this.dataEdit.value.docxTitle.toString(),
-                    id:this.$route.query.detailsId
-                }
-            }).then(res=>{
+            const loading = this.$myLoading();
+
+            let data = {
+                mdContent:this.dataEdit.value.docxContent.toString(),
+                content:this.dataEdit.format_html.toString(),
+                title:this.dataEdit.value.docxTitle.toString(),
+                id:this.$route.query.detailsId
+            }
+            this.$axios.post('/api/sysuser/changeDetails',data,(res)=>{
+                loading.close();
                 this.$myMessage({
                     content:'修改成功',
                     messageType:'success'
                 })
+            },rej=>{
+                loading.close()
+                this.$myMessage({
+                    content:rej,
+                    messageType:'error'
+                })
             })
         },
         addDetails(){
-            this.$axios({
-                method:'post',
-                url:'http://45.77.181.240:8080/api/sysuser/addDetails',
-                data:{
+            const loading = this.$myLoading();
+
+            let data ={
                     type:this.$route.query.type,
                     mdContent:this.dataEdit.value.docxContent.toString(),
                     content:this.dataEdit.format_html.toString(),
                     title:this.dataEdit.value.docxTitle.toString(),
                     userId:window.localStorage.getItem('userId')
                 }
-            }).then(res=>{
+            this.$axios.post('/api/sysuser/addDetails',data,(res)=>{
+                loading.close()
                 this.$myMessage({
                     content:'添加成功',
                     messageType:'success'
                 })
+            },rej=>{
+                loading.close()
+                this.$myMessage({
+                    content:rej,
+                    messageType:'error'
+                })
             })
         },
         getDetials(){
-            this.$axios({
-                method:'post',
-                url:'http://45.77.181.240:8080/api/sysuser/getDetails',
-                data:{
+
+            this.$axios.post('/api/sysuser/getDetails',
+                {
                     detailsId:this.$route.query.detailsId
+                },(res)=>{
+                    this.dataEdit.value.docxContent = res.mdContent
+                    this.dataEdit.value.docxTitle = res.title
+                    this.loading.close()
+                },(rej)=>{
+                    this.loading.close()
+                    this.$myMessage({
+                        content:rej,
+                        messageType:'error'
+                    })
                 }
-            }).then(res=>{
-                this.dataEdit.value.docxContent = res.data.mdContent
-                this.dataEdit.value.docxTitle = res.data.title
-            })
+            )
         },
     }
   };

@@ -11,14 +11,11 @@ module.exports = defineConfig({
 
 })
 module.exports = {
+	outputDir: 'dist',
+
 	devServer: {
-		proxy: {
-			'/api': {
-				target: 'http://45.77.181.240/:8080',
-				pathRewrite:{'^/api':''},
-				ws: true,
-				changeOrigin: true
-			  }
-		}
+		// host: process.env.HOST ||'http://45.77.181.240',
+		// port: process.env.PORT||'8080',
+		proxy: process.env.VUE_APP_API_URL,
 	},
 }

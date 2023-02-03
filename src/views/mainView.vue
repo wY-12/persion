@@ -62,7 +62,7 @@
     }
     .layout-logo-left{
         width: 90%;
-        height: 30px;
+        height: 40px;
         border-radius: 3px;
         margin: 15px auto;
         text-align: center;
@@ -93,8 +93,10 @@
     <div class="layout" :class="{'layout-hide-text':textHidden}">
         <Row type="flex">
             <i-col :span="spanLeft" class="layout-menu-left">
-                <Menu active-name="mainPage" theme="dark" width="auto"  @on-select="jumpTo">
-                    <div class="layout-logo-left">王十二</div>
+                <Menu :active-name='activeName' :open-names='openNames' theme="dark" width="auto"  @on-select="jumpTo">
+                    <div class="layout-logo-left">
+                        <img src="../assets/loginTitle-fff.png" />
+                    </div>
                     <div v-for="(item,index) in leftMenu" :key="index">
                         <Submenu name="1" v-if="item.children" class="mini-layout-text">
                             <template slot="title">
@@ -196,9 +198,12 @@
                 ],
                 menuNow:['首页'],
                 nowData:new Date(),
+                activeName:'',
+                openNames:['1']
             }
         },
         mounted(){
+            this.activeName = this.$route.name
             if(!window.localStorage.getItem('userId') || window.localStorage.getItem('user') == ''){
                 this.$myMessage({
                     content:'请先登录内部用户',

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Table :border='false'  :columns="titleData" :data="tableData.list" :show-header="showHeader"></Table>
+    <Table :loading="tabLoading" :border='false'  :columns="titleData" :data="tableData.list" :show-header="showHeader"></Table>
     <Page :total="tableData.total" size="small" @on-change="pageChange" show-elevator class="tablePage"></Page>
 
   </div>
@@ -20,10 +20,15 @@ export default {
         tableData:{
             type:Object,
             default:{}
+        },
+        tabLoading:{
+          type:Boolean,
+          default:false
         }
     },
     data () {
             return {
+              
             }
     },
     methods:{

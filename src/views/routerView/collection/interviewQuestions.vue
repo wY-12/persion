@@ -10,7 +10,7 @@
       <Button @click="add" type="primary" shape="circle" icon="ios-add" class="addBtn"></Button>
     </div>
     
-    <myTable :table-data="tableData" :title-data="tableTitle" :showHeader="false" @pageChange="pageChange"></myTable>
+    <myTable :tab-loading="tabLoading" :table-data="tableData" :title-data="tableTitle" :showHeader="false" @pageChange="pageChange"></myTable>
     <Modal v-model="modal1" width="360">
         <p slot="header" style="color:#f60;text-align:center">
             <Icon type="information-circled"></Icon>
@@ -138,6 +138,7 @@ export default {
         page:1,
         pageSize:10,
         nowRow:null,
+        tabLoading:false,
     }
   },
   mounted(){
@@ -147,13 +148,7 @@ export default {
   methods:{
     del(row){
       this.modal_loading = true;
-      this.$axios({
-        method:'post',
-        url:'http://45.77.181.240:8080/api/sysuser/delDetails',
-        data:{
-          id:this.nowRow.id
-        }
-      }).then(res=>{
+      this.$axios.post('/api/sysuser/delDetails',{id:this.nowRow.id},(res)=>{
         this.modal_loading = false;
         this.modal1 = false;
         this.$myMessage({
@@ -161,38 +156,45 @@ export default {
           messageType:'success'
         })
         this.getInterviewList()
-      },rej=>{
+      },(rej)=>{
         this.modal_loading = false;
         this.$myMessage({
           content:'删除失败',
           messageType:'error'
         })
-      })
-
-
-
-    },
+      },
+    )},
     getTypeList(){
-      this.$axios({
-        method:'get',
-        url:'http://45.77.181.240:8080/api/sysuser/getInterviewType',
-      }).then(res=>{
-        this.typeList = res.data
+
+      this.$axios.get('/api/sysuser/getInterviewType',{},(res)=>{
+        this.typeList = res
+      },rej=>{
+        this.$myMessage({
+          content:rej,
+          messageType:'error'
+        })
       })
     },
     getInterviewList(){
-      this.$axios({
-        method:'post',
-        url:'http://45.77.181.240:8080/api/sysuser/getInterviewTitle',
-        data:{
+      this.tabLoading = true
+
+      this.$axios.post('/api/sysuser/getInterviewTitle',
+        {
           userId:window.localStorage.getItem('userId'),
           page:this.page,
           pageSize:this.pageSize,
           type:this.searchValue,
-        }
-      }).then(res=>{
-        this.tableData.total = res.data.total
-        this.tableData.list = res.data.data
+        },
+      res=>{
+        this.tabLoading = false
+        this.tableData.total = res.total
+        this.tableData.list = res.data
+      },rej=>{
+        this.tabLoading = false
+        this.$myMessage({
+          content:rej,
+          messageType:'error'
+        })
       })
     },
     clickDel(isTrue,row){
