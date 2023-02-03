@@ -12,7 +12,7 @@ module.exports = defineConfig({
 })
 module.exports = {
 	outputDir: 'dist',
-
+	
 	devServer: {
 		// host: process.env.HOST ||'http://45.77.181.240',
 		// port: process.env.PORT||'8080',

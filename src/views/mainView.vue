@@ -43,6 +43,10 @@
             text-overflow: ellipsis; 
         }
     }
+    .layout-logo-left-img{
+        width: 80%;
+        height: 110%;
+    }
     .layout-copy{
         text-align: center;
         padding: 10px 0 20px;
@@ -88,6 +92,9 @@
         transform: translateY(50%);
         font-weight: bolder;
     }
+    .textPadding{
+        padding-left: 15px!important;
+    }
 </style>
 <template>
     <div class="layout" :class="{'layout-hide-text':textHidden}">
@@ -95,7 +102,7 @@
             <i-col :span="spanLeft" class="layout-menu-left">
                 <Menu :active-name='activeName' :open-names='openNames' theme="dark" width="auto"  @on-select="jumpTo">
                     <div class="layout-logo-left">
-                        <img src="../assets/loginTitle-fff.png" />
+                        <img src="../assets/loginTitle-fff.png" class="layout-logo-left-img"/>
                     </div>
                     <div v-for="(item,index) in leftMenu" :key="index">
                         <Submenu name="1" v-if="item.children" class="mini-layout-text">
@@ -103,7 +110,7 @@
                                 <Icon :type="item.icon" :size="iconSize"></Icon>
                                 <span class="layout-text" >{{ item.name }}</span>
                             </template>
-                            <Menu-item v-for="(cItem,index) in item.children" :key="index" :name="cItem.urlId" class="mini-layout-text">{{ cItem.name }}</Menu-item>
+                            <Menu-item v-for="(cItem,index) in item.children" :key="index" :name="cItem.urlId" class="mini-layout-text" :class='{textPadding:spanLeft === 2}'>{{ cItem.name }}</Menu-item>
                         </Submenu>
                         <Menu-item :name="item.urlId" v-else class="mini-layout-text">
                             <Icon :type="item.icon" :size="iconSize"></Icon>
@@ -204,6 +211,9 @@
         },
         mounted(){
             this.activeName = this.$route.name
+            if(this.$route.name == 'details'){
+                this.activeName = 'interview-questions'
+            }
             if(!window.localStorage.getItem('userId') || window.localStorage.getItem('user') == ''){
                 this.$myMessage({
                     content:'请先登录内部用户',

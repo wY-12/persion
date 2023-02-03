@@ -65,7 +65,9 @@ Vue.prototype.$myLoading = function(){
   const loading = Loading.service({
     lock: true,
     text:'请等待',
-    spinner: 'el-icon-loading'
+    spinner: 'el-icon-loading',
+    background: 'rgba(0, 0, 0, 0.6)'
+
   }) 
   return loading
 }

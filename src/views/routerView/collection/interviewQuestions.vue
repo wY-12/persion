@@ -10,7 +10,7 @@
       <Button @click="add" type="primary" shape="circle" icon="ios-add" class="addBtn"></Button>
     </div>
     
-    <myTable :tab-loading="tabLoading" :table-data="tableData" :title-data="tableTitle" :showHeader="false" @pageChange="pageChange"></myTable>
+    <myTable @dblclick="toCheck" :tab-loading="tabLoading" :table-data="tableData" :title-data="tableTitle" :showHeader="false" @pageChange="pageChange"></myTable>
     <Modal v-model="modal1" width="360">
         <p slot="header" style="color:#f60;text-align:center">
             <Icon type="information-circled"></Icon>
@@ -98,7 +98,7 @@ export default {
                     {
                         title: '时间',
                         key: 'time',
-                        width: 200
+                        width: 200, 
                     },
                     {
                         title: '操作',

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Table :loading="tabLoading" :border='false'  :columns="titleData" :data="tableData.list" :show-header="showHeader"></Table>
+    <Table :loading="tabLoading" :border='false' stripe  :columns="titleData" @on-row-dblclick="dblclick" :data="tableData.list" :show-header="showHeader"></Table>
     <Page :total="tableData.total" size="small" @on-change="pageChange" show-elevator class="tablePage"></Page>
 
   </div>
@@ -35,6 +35,9 @@ export default {
       pageChange(val){
         this.$emit('pageChange',val)
       },
+      dblclick(val){
+        this.$emit('dblclick',val)
+      }
     }
 }
 </script>
@@ -45,6 +48,7 @@ export default {
     height: 46px;
   }
 }
+
 .tablePage{
   margin-top: 10px;
   text-align: end;
