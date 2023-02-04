@@ -29,10 +29,8 @@ export default {
     }
   },
   mounted(){
-    console.log(process.env)
-    console.log(process.env.VUE_APP_API_URL)
-    if(window.localStorage.getItem('userId')){
-      window.localStorage.removeItem('userId')
+    if(window.sessionStorage.getItem('userId')){
+      window.sessionStorage.clear()
     }
   },
   components: {
@@ -49,7 +47,8 @@ export default {
         this.$axios.post('/api/sysuser/get',data,(res)=>{
           if(res && res.length>0){
             if(res[0].password !=''){
-              window.localStorage.setItem('userId',res[0].userId)
+              window.sessionStorage.setItem('userId',res[0].userId)
+              window.sessionStorage.setItem('isSuper',res[0].isSuper)
               this.btnLoadin = false;
               this.$myMessage({
                 content:'登陆成功',

@@ -118,7 +118,7 @@
                     mdContent:this.dataEdit.value.docxContent.toString(),
                     content:this.dataEdit.format_html.toString(),
                     title:this.dataEdit.value.docxTitle.toString(),
-                    userId:window.localStorage.getItem('userId')
+                    userId:window.sessionStorage.getItem('userId')
                 }
             this.$axios.post('/api/sysuser/addDetails',data,(res)=>{
                 loading.close()

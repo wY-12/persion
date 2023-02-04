@@ -202,6 +202,12 @@
                             },
                         ]
                     },
+                    {
+                        name:'代码编辑器',
+                        icon:'ios-cog',
+                        urlId:'codeEditor',
+                        superMenu:true
+                    },
                 ],
                 menuNow:['首页'],
                 nowData:new Date(),
@@ -214,13 +220,26 @@
             if(this.$route.name == 'details'){
                 this.activeName = 'interview-questions'
             }
-            if(!window.localStorage.getItem('userId') || window.localStorage.getItem('user') == ''){
+            if(!window.sessionStorage.getItem('userId') || window.sessionStorage.getItem('user') == ''){
                 this.$myMessage({
                     content:'请先登录内部用户',
                     time:2000,
                     messageType:'error'
                 })
                 this.$router.push('/')
+            }
+            for(let i = 0;i<this.leftMenu.length;i++){
+                if(this.leftMenu[i].children){
+                    for(let j = 0;j<this.leftMenu[i].children.length;j++){
+                        if(this.leftMenu[i].children[j].superMenu && window.sessionStorage.getItem('isSuper') != 1){
+                            this.leftMenu[i].children.splice(j,1)
+                        }
+                    }
+                }else{
+                    if(this.leftMenu[i].superMenu && window.sessionStorage.getItem('isSuper') != 1){
+                        this.leftMenu.splice(i,1)
+                    }
+                }
             }
         },
         computed: {
@@ -249,7 +268,7 @@
                     time:2000,
                     messageType:'success'
                 })
-                window.localStorage.removeItem('userId')
+                window.sessionStorage.clear()
                 this.$router.push('/')
             },  
             jumpTo(to){

@@ -11,6 +11,11 @@ import 'mavon-editor/dist/css/index.css'
 import 'element-ui/lib/theme-chalk/index.css';
 import * as echarts from "echarts";
 import Axios from 'axios';
+import VueCodemirror from 'vue-codemirror'
+// import base style
+import 'codemirror/lib/codemirror.css'
+
+Vue.use(VueCodemirror)
 Vue.prototype.$myMessage = myMessage.install
 Vue.prototype.$echarts = echarts;
 let LdRPC = {
@@ -75,7 +80,6 @@ Vue.prototype.$axios = LdRPC
 Vue.config.productionTip = false
 Vue.use(iView);
 Vue.use(mavonEditor)
-
 
 
 

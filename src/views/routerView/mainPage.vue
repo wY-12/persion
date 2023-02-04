@@ -84,7 +84,7 @@ export default {
         this.variationWeekly = document.getElementById('variationWeekly')
 
         this.drawVariationWeekly(this.variationWeeklyData)
-        if(window.localStorage.getItem('userId')){
+        if(window.sessionStorage.getItem('userId')){
             this.getTotals()
         }
     },
@@ -202,7 +202,7 @@ export default {
         },
         getTotals(){
             this.loading = this.$myLoading();
-            this.$axios.post('/api/sysuser/getTotals',{userId:window.localStorage.getItem('userId')},res=>{
+            this.$axios.post('/api/sysuser/getTotals',{userId:window.sessionStorage.getItem('userId')},res=>{
                 
                 this.articleProportionData.forEach(item => {
                     item.value = res[item.total] || 0

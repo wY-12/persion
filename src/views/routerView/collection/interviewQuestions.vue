@@ -180,7 +180,7 @@ export default {
 
       this.$axios.post('/api/sysuser/getInterviewTitle',
         {
-          userId:window.localStorage.getItem('userId'),
+          userId:window.sessionStorage.getItem('userId'),
           page:this.page,
           pageSize:this.pageSize,
           type:this.searchValue,

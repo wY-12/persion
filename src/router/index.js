@@ -29,6 +29,14 @@ const routes = [
         component: () => import('../views/routerView/mainPage.vue')
       },
       {
+        path: '/codeEditor',
+        name: 'codeEditor',
+        component: () => import('../views/routerView/collection/codeEditor.vue'),
+        // meta: {
+        //   keepAlive: true //此组件需要被缓存
+        // }
+      },
+      {
         path: '/antic',
         name: 'antic',
         component: () => import('../views/routerView/collection/antic.vue')
