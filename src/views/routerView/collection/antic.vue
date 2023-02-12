@@ -16,12 +16,16 @@ export default {
         }
         
     },
+    created(){
+        this.$loading.install()
+    },
     mounted(){
-        this.loading = this.$myLoading();
-
+        setTimeout(() => {
+            this.$loading.close()
+        }, 2000);
         this.container = document.getElementById('container')
         this.init()
-        this.loading.close()
+        
     },
     methods:{
         init(){
@@ -71,7 +75,7 @@ export default {
                 series: []
                 };
             container.setOption(option)
-
+            
             
         }
     }

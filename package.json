@@ -16,6 +16,7 @@
     "element-ui": "^2.15.12",
     "express": "^4.18.2",
     "iview": "^3.5.4",
+    "lottie-web": "^5.10.2",
     "mavon-editor": "^2.10.4",
     "mysql": "^2.18.1",
     "mysql2": "^3.0.1",

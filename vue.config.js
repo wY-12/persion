@@ -14,8 +14,12 @@ module.exports = {
 	outputDir: 'dist',
 	
 	devServer: {
-		// host: process.env.HOST ||'http://45.77.181.240',
-		// port: process.env.PORT||'8080',
-		proxy: process.env.VUE_APP_API_URL,
+		proxy:{
+			'/api':{
+				target: process.env.VUE_APP_API_URL,
+			},
+		}
+		
+		
 	},
 }

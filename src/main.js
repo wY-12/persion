@@ -4,7 +4,7 @@ import 'iview/dist/styles/iview.css';    // 使用 CSS
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { Loading } from 'element-ui';
+// import { Loading } from 'element-ui';
 import myMessage from './components/myMessage.js'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
@@ -14,7 +14,7 @@ import Axios from 'axios';
 import VueCodemirror from 'vue-codemirror'
 // import base style
 import 'codemirror/lib/codemirror.css'
-
+import loading from './components/loading.js'
 Vue.use(VueCodemirror)
 Vue.prototype.$myMessage = myMessage.install
 Vue.prototype.$echarts = echarts;
@@ -76,6 +76,8 @@ Vue.prototype.$myLoading = function(){
   }) 
   return loading
 }
+Vue.prototype.$store = store
+Vue.prototype.$loading = loading
 Vue.prototype.$axios = LdRPC
 Vue.config.productionTip = false
 Vue.use(iView);

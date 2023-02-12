@@ -1,24 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import imgUrl from './imgUrl'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-    isLogin:false
-  },
-  getters: {
-  },
-  mutations: {
-    doLogin(state){
-      state.isLogin = true
-    },
-    doLogout(state){
-      state.isLogin = false
-    }
-  },
-  actions: {
-  },
   modules: {
+    imgUrl
   }
+  
 })

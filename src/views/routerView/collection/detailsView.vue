@@ -4,7 +4,7 @@
     <div class="title">{{ details.title }}</div>
     <div class="detailsBlurb">
         <div class="detailsTime">{{details.time}}</div>
-        <Button-group size="small" shape="circle" class="editBtn">
+        <Button-group v-if="showEdit" size="small" shape="circle" class="editBtn">
             <Button type="text" @click="toEdit">编辑 </Button>
         </Button-group>
     </div>
@@ -25,11 +25,15 @@ export default {
             editTitle:'',
             oldTitle:'',
             loading:null,
+            showEdit:false
         }
     },
     mounted(){
-        this.loading = this.$myLoading();
-
+        this.$loading.install()
+        this.showEdit = false
+        if(window.sessionStorage.getItem('userId') == 1){
+            this.showEdit = true
+        }
         this.getDetials()
     },
     methods:{
@@ -41,7 +45,7 @@ export default {
         getDetials(){
 
             this.$axios.post('/api/sysuser/getDetails',{detailsId:this.$route.query.id},res=>{
-                this.loading.close();
+                this.$loading.close();
                 this.details = res
             },rej=>{
                 this.loading.close()

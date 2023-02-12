@@ -1,13 +1,13 @@
 <template>
-  <div class="topTable">
+  <div class="topTable" id="wrapper">
     <div class="search">
       <span class="searchSpan">类型搜索：</span>
-      <Select v-model="searchValue" clearable filterable style="width:200px">
+      <Select v-model="searchValue" clearable filterable style="width:200px" placeholder="请选择类型">
           <Option v-for="(item,index) in typeList" :value="item.typeId" :key="index">{{ item.type }}</Option>
       </Select>
       
       <Button @click="search" type="primary" shape="circle" icon="ios-search" class="searchBtn"></Button>
-      <Button @click="add" type="primary" shape="circle" icon="ios-add" class="addBtn"></Button>
+      <Button @click="add" v-if="showAddBtn" type="primary" shape="circle" icon="ios-add" class="addBtn"></Button>
     </div>
     
     <myTable @dblclick="toCheck" :tab-loading="tabLoading" :table-data="tableData" :title-data="tableTitle" :showHeader="false" @pageChange="pageChange"></myTable>
@@ -43,8 +43,10 @@
 </template>
 
 <script>
-import myTable from '../../../components/myTable.vue';
+import axios from 'axios'
 
+import myTable from '../../../components/myTable.vue';
+import {mapState} from 'vuex'
 export default {
   components:{myTable},
   data(){
@@ -88,6 +90,9 @@ export default {
                             case 4:
                               typeName = 'vue';
                             break;
+                            case 5:
+                              typeName = 'html';
+                            break;
                             default:
                              typeName = '未知类型';
                             break;
@@ -106,25 +111,41 @@ export default {
                         fixed: 'right',
                         width: 120,
                         render :(h,params)=> {
-                          return h('div',[
-                            h('a',{
-                              style:{
-                                marginRight:'10px'
-                              },
-                              on:{
-                                click:()=>{
-                                  this.toCheck(params.row)
+                          if(window.sessionStorage.getItem('userId') == 1){
+                            return h('div',[
+                              h('a',{
+                                style:{
+                                  marginRight:'10px'
+                                },
+                                on:{
+                                  click:()=>{
+                                    this.toCheck(params.row)
+                                  }
                                 }
-                              }
-                            },'查看'),
-                            h('a',{
-                              on:{
-                                click:()=>{
-                                  this.clickDel(true,params.row)
+                              },'查看'),
+                              h('a',{
+                                on:{
+                                  click:()=>{
+                                    this.clickDel(true,params.row)
+                                  }
                                 }
-                              }
-                            },'删除')
-                          ])
+                              },'删除')
+                            ])
+                          }else{
+                            return h('div',[
+                              h('a',{
+                                style:{
+                                  marginRight:'10px'
+                                },
+                                on:{
+                                  click:()=>{
+                                    this.toCheck(params.row)
+                                  }
+                                }
+                              },'查看'),
+                            ])
+                          }
+                          
                         }
                     }
   
@@ -139,11 +160,42 @@ export default {
         pageSize:10,
         nowRow:null,
         tabLoading:false,
+        backgroundImg:'https://cdn.cdnjson.com/tvax3.sinaimg.cn/large/9bd9b167gy1g4lhmvl2vej21hc0xcqnz.jpg',
+        wrapper:null,
+        showAddBtn:false,
+        userId:window.sessionStorage.getItem('userId') || 0
+    }
+  },
+  computed:mapState('imgUrl',['imgUrl']),
+  created(){
+  },
+  watch:{
+    userId:{
+      handler(newval,oldval){
+        if(newval == 1){
+          this.showAddBtn = true
+        }else{
+          this.showAddBtn = false
+        }
+      }
+    },
+    imgUrl:{
+      handler(newval,oldval){
+        if(newval != oldval){
+          this.wrapper.style.backgroundImage = 'url('+ this.imgUrl +')'
+        }
+      }
     }
   },
   mounted(){
+    this.showAddBtn = false
+    this.wrapper = document.getElementById('wrapper')
+    this.wrapper.style.backgroundImage = 'url('+ this.imgUrl +')'
     this.getTypeList();
     this.getInterviewList();
+    if(window.sessionStorage.getItem('userId') == 1){
+      this.showAddBtn = true
+    }
   },
   methods:{
     del(row){
@@ -180,7 +232,7 @@ export default {
 
       this.$axios.post('/api/sysuser/getInterviewTitle',
         {
-          userId:window.sessionStorage.getItem('userId'),
+          userId:1,
           page:this.page,
           pageSize:this.pageSize,
           type:this.searchValue,
@@ -236,7 +288,8 @@ export default {
           })
         }
         
-    }
+    },
+    
       
   }
 }
@@ -244,7 +297,13 @@ export default {
 
 <style lang="less">
 .topTable{
-  margin: 10px;
+  width: 100%;
+  height: 100%;
+  background: no-repeat;
+  background-size:100% 100%;
+  overflow: hidden;
+  background-attachment:fixed;
+  padding: 15px;
 }
 .search{
   margin-bottom: 10px;

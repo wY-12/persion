@@ -6,7 +6,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path:'/',
+    redirect:'/mainPage'
+  },
+  {
+    path: '/login',
     name: 'login',
     component: LoginView
   },
@@ -26,15 +30,16 @@ const routes = [
       {
         path: '/mainPage',
         name: 'mainPage',
-        component: () => import('../views/routerView/mainPage.vue')
+        component: () => import('../views/routerView/mainPage.vue'),
+        meta: {
+          keepAlive: true //此组件需要被缓存
+        }
       },
       {
         path: '/codeEditor',
         name: 'codeEditor',
         component: () => import('../views/routerView/collection/codeEditor.vue'),
-        // meta: {
-        //   keepAlive: true //此组件需要被缓存
-        // }
+        
       },
       {
         path: '/antic',
@@ -44,7 +49,10 @@ const routes = [
       {
         path: '/article-collection',
         name: 'article-collection',
-        component: () => import('../views/routerView/collection/articleCollection.vue')
+        component: () => import('../views/routerView/collection/articleCollection.vue'),
+        meta: {
+          keepAlive: true //此组件需要被缓存
+        }
       },
       {
         path: '/details',

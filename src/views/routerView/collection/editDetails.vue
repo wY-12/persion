@@ -56,7 +56,7 @@
     },
     mounted(){
         if(this.$route.query.detailsId){
-            this.loading = this.$myLoading();
+            this.$loading.install()
             this.getDetials()
         }
     },  
@@ -88,7 +88,7 @@
             }
         },
         changeDetails(){
-            const loading = this.$myLoading();
+            this.$loading.install()
 
             let data = {
                 mdContent:this.dataEdit.value.docxContent.toString(),
@@ -97,13 +97,13 @@
                 id:this.$route.query.detailsId
             }
             this.$axios.post('/api/sysuser/changeDetails',data,(res)=>{
-                loading.close();
+                this.$loading.close()
                 this.$myMessage({
                     content:'修改成功',
                     messageType:'success'
                 })
             },rej=>{
-                loading.close()
+                this.$loading.close()
                 this.$myMessage({
                     content:rej,
                     messageType:'error'
@@ -111,7 +111,7 @@
             })
         },
         addDetails(){
-            const loading = this.$myLoading();
+            this.$loading.install()
 
             let data ={
                     type:this.$route.query.type,
@@ -121,13 +121,13 @@
                     userId:window.sessionStorage.getItem('userId')
                 }
             this.$axios.post('/api/sysuser/addDetails',data,(res)=>{
-                loading.close()
+                this.$loading.close()
                 this.$myMessage({
                     content:'添加成功',
                     messageType:'success'
                 })
             },rej=>{
-                loading.close()
+                this.$loading.close()
                 this.$myMessage({
                     content:rej,
                     messageType:'error'
@@ -142,9 +142,9 @@
                 },(res)=>{
                     this.dataEdit.value.docxContent = res.mdContent
                     this.dataEdit.value.docxTitle = res.title
-                    this.loading.close()
+                    this.$loading.close()
                 },(rej)=>{
-                    this.loading.close()
+                    this.$loading.close()
                     this.$myMessage({
                         content:rej,
                         messageType:'error'
