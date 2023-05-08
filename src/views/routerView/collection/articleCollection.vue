@@ -72,11 +72,9 @@ export default {
 <style lang="less">
 .wrapper{
   padding: 20px;
-  height: 100%;
   width: 100%;
   background: no-repeat;
   background-size:100% 100%;
-  overflow: hidden;
   background-attachment:fixed;
 }
 .cardWrapper{

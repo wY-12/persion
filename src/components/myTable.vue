@@ -45,7 +45,7 @@ export default {
 <style lang="less">
 .ivu-table{
   td{
-    height: 46px;
+    min-height: 46px;
   }
 }
 

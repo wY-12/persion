@@ -69,7 +69,7 @@
         }
 
         .card:hover {
-            box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.623);
+            box-shadow: 0 1px 20px 1px rgba(0, 0, 0, 0.6);
         }
 
         .card .blob {

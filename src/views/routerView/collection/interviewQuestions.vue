@@ -10,7 +10,7 @@
       <Button @click="add" v-if="showAddBtn" type="primary" shape="circle" icon="ios-add" class="addBtn"></Button>
     </div>
     
-    <myTable @dblclick="toCheck" :tab-loading="tabLoading" :table-data="tableData" :title-data="tableTitle" :showHeader="false" @pageChange="pageChange"></myTable>
+    <myTable class="myTable" @dblclick="toCheck" :tab-loading="tabLoading" :table-data="tableData" :title-data="tableTitle" :showHeader="false" @pageChange="pageChange"></myTable>
     <Modal v-model="modal1" width="360">
         <p slot="header" style="color:#f60;text-align:center">
             <Icon type="information-circled"></Icon>
@@ -295,7 +295,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped > 
 .topTable{
   width: 100%;
   height: 100%;
@@ -304,6 +304,8 @@ export default {
   overflow: hidden;
   background-attachment:fixed;
   padding: 15px;
+  display: flex;
+  flex-direction: column
 }
 .search{
   margin-bottom: 10px;
@@ -338,5 +340,8 @@ export default {
   .popopInput{
     width: 80%;
   }
+}
+.myTable{
+  flex:1;
 }
 </style>

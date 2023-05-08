@@ -4,7 +4,7 @@
             <div class="main-title-left">
                 <h1>早安，请开始一天的工作吧</h1>
                 <div class="saying">{{ saying }}</div>
-                <div class="weather">{{ weather }}</div>
+                <div v-if="showWeather"  class="weather">{{ weather }}</div>
                 <div v-for="item in titleData" :key="item.name" class="title">
                     <Icon :type="item.iconType" size="20" class="Icon" color="#55a0f8"></Icon>
                     <span>{{ item.name }}:{{ item.num }}</span>
@@ -101,6 +101,7 @@ export default {
             loading:null,
             saying:'',
             weather:'',
+            showWeather:true,
             music:{
                 comment:'loading.....'
             },
@@ -110,6 +111,8 @@ export default {
     },
     created(){
         this.titleWidth = 100 / this.titleData.length - 1
+        // var a = this.add()
+        // alert(a(4))
     },
     mounted(){
         this.getSaying()
@@ -121,6 +124,13 @@ export default {
 
     },
     methods:{
+        // add(num){
+        //     if(num<=1){
+        //         return 1
+        //     }else{
+        //         return num.arguments.call(num-1);
+        //     }
+        // },
         drawArticleProportion(data){
             let articleProportion = this.$echarts.init(this.articleProportion)
             let option = {
@@ -215,28 +225,44 @@ export default {
         },
         getIp(){
             axios({
-                method:'POST',
-                url:'https://tenapi.cn/v2/getip',
+                method:'GET',
+                url:'https://restapi.amap.com/v3/ip',
+                params:{
+                    key:'1fd87d74a0fc3742ec66cae101fde77c',
+                }
             }).then(res=>{
                 // this.saying = res.data.data
-                this.getWeather(res.data.data.city)
+                console.log(res)
+                
+                this.getWeather(res.data.adcode)
             },rej=>{
-                this.getWeather('北京')
+                this.getWeather('唐山')
             })
         },
         getWeather(city){
+            
             axios({
-                method:'POST',
-                url:'https://tenapi.cn/v2/weather',
+                method:'GET',
+                url:'https://restapi.amap.com/v3/weather/weatherInfo?parameters',
                 params:{
+                    key:'1fd87d74a0fc3742ec66cae101fde77c',
                     city:city
                 }
             }).then(res=>{
-                if(res.data.code == 200){
-                    let weatherData = res.data.data[0]
-                    this.weather = `${ weatherData.date}--${ weatherData.city }市    天气: ${ weatherData.weather }  风向：${weatherData.wind}  污染程度：${ weatherData.airQuality }`
+                console.log(res)
+                if(res.status == 200){
+                    let weatherData = res.data.lives[0]
+                    this.weather = `${ weatherData.reporttime} 
+                     ${weatherData.province}${ weatherData.city } 
+                     天气: ${ weatherData.weather }  当前温度：${weatherData.temperature}°     空气湿度：${ weatherData.humidity }`
                 }
+                console.log(this.weather)
+                this.showWeather = false
+                this.$nextTick(()=>{
+                    this.showWeather = true
+                })
             },rej=>{
+                console.log(rej)
             })
         },
         getMusic(){
